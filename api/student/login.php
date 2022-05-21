@@ -8,19 +8,20 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // import jwt
 use Firebase\JWT\JWT;
+include_once '../../vendor/autoload.php';
 
 // include configurations
-include_once '../config/config.php';
+include_once '../../config/config.php';
 
 // import class file
-include_once '../class/student.php';
+include_once '../../class/student.php';
 
 $database = new Database();
 $db = $database -> getConnection();
 
 $items = new Student($db);
 
-$stmt = $items -> logIn();
+$stmt = $items->login();
 
 $numOfRows = $stmt->rowCount();
 
@@ -28,6 +29,7 @@ if($numOfRows > 0) {
     $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $control = $dataRow['control'];
+    $nombre_completo = $dataRow['nombre_completo'];
     $nip = $dataRow['nip'];
 
     if($items->nip == $nip) {
@@ -40,10 +42,12 @@ if($numOfRows > 0) {
 
             "data" => array(
                 "control" => $control,
+                "nombre" => $nombre_completo
             ));
 
-        $jwtValue = JWT::encode($token, $dataRow->secret_key, 'HS256');
+        $jwtValue = JWT::encode($token, $database->secret_key, 'HS256');
 
+        http_response_code(200);
         echo json_encode(
             array(
                 "message" => "success",
@@ -52,6 +56,7 @@ if($numOfRows > 0) {
                 "expiry" => $expire_claim
             ));
     } else {
+        http_response_code(404);
         echo json_encode(array("success" => "false"));
     }
 }

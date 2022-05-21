@@ -1,6 +1,4 @@
 <?php
-include_once '../vendor/autoload.php';
-
 // students class manages the CRUD operations
 class Student {
     // TODO
@@ -86,6 +84,8 @@ class Student {
 
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
+
+        echo $sqlQuery;
 
         return $stmt;
     }

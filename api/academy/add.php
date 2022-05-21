@@ -7,10 +7,10 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // include configurations
-include_once '../config/config.php';
+include_once '../../config/config.php';
 
 // import class file
-include_once '../class/academy.php';
+include_once '../../class/academy.php';
 
 $database = new Database();
 $db = $database -> getConnection();

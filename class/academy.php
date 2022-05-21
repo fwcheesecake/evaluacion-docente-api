@@ -1,6 +1,4 @@
 <?php
-include_once '../vendor/autoload.php';
-
 // students class manages the CRUD operations
 class Academy {
     public $descripcion, $clave, $tipo;
@@ -28,6 +26,8 @@ class Academy {
     // get single record from certain table
     public function getAcademy() {
         $sqlQuery = "select * from ".$this->db_table." where clave = :clave";
+        $this->clave = $this->apiData->clave;
+
         $stmt = $this -> conn -> prepare($sqlQuery);
         $stmt -> bindParam(":clave", $this->clave);
         $stmt -> execute();
