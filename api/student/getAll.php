@@ -18,10 +18,8 @@ $db = $database -> getConnection();
 $items = new Student($db);
 
 $stmt = $items -> getAllStudents();
+
 $itemCount = $stmt -> rowCount();
-
-echo json_encode($itemCount);
-
 if($itemCount > 0) {
     $studentsArray = array();
     $studentsArray["body"] = array();

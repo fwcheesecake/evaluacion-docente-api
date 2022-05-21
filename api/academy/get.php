@@ -13,29 +13,23 @@ include_once '../../config/config.php';
 include_once '../../class/academy.php';
 
 $database = new Database();
-$db = $database -> getConnection();
+$db = $database->getConnection();
 
 $items = new Academy($db);
 
-$stmt = $items -> getAllAcademies();
+$stmt = $items->getAcademy();
+
 $itemCount = $stmt -> rowCount();
-
 if($itemCount > 0) {
-    $academiesArray = array();
-    $academiesArray["body"] = array();
-    $academiesArray["itemCount"] = $itemCount;
-
-    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-        extract($row);
-        $resultData = array(
-            "clave" => $clave,
-            "descripcion" => $descripcion,
-            "tipo" => $tipo
-        );
-        $academiesArray["body"][] = $resultData;
-    }
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    $resultData = array(
+        "clave" => $clave,
+        "descripcion" => $descripcion,
+        "tipo" => $tipo
+    );
     http_response_code(200);
-    echo json_encode($academiesArray);
+    echo json_encode($resultData);
 } else {
     http_response_code(404);
     echo json_encode(
