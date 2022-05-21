@@ -85,8 +85,6 @@ class Student {
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
 
-        echo $sqlQuery;
-
         return $stmt;
     }
 }
