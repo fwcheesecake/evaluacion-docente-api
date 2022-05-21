@@ -3,7 +3,8 @@ Endpoint API for Interactive English Center
 
 ## Requirements
 * php 7.1 installed and configured in your `path` variable
-* composer installed
+  * Usually comes with [XAMPP](https://www.apachefriends.org/es/index.html) on Windows, and it's installed on `C:\xampp\php`
+* [composer](https://getcomposer.org/) installed and configured in your `path` variable too
 
 ## Installation
 Clone the repository
