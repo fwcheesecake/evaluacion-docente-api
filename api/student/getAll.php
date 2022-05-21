@@ -13,19 +13,19 @@ include_once '../../config/config.php';
 include_once '../../class/student.php';
 
 $database = new Database();
-$db = $database -> getConnection();
+$db = $database->getConnection();
 
 $items = new Student($db);
 
-$stmt = $items -> getAllStudents();
+$stmt = $items->getAllStudents();
 
-$itemCount = $stmt -> rowCount();
+$itemCount = $stmt->rowCount();
 if($itemCount > 0) {
     $studentsArray = array();
     $studentsArray["body"] = array();
     $studentsArray["itemCount"] = $itemCount;
 
-    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
         $resultData = array(
             "control" => $control,

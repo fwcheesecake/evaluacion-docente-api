@@ -10,32 +10,29 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../../config/config.php';
 
 // import class file
-include_once '../../class/academy.php';
+include_once '../../class/group.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$items = new Academy($db);
+$items = new Group($db);
 
-$stmt = $items->getAllAcademies();
+$stmt = $items->getGroup();
+
 $itemCount = $stmt->rowCount();
-
 if($itemCount > 0) {
-    $academiesArray = array();
-    $academiesArray["body"] = array();
-    $academiesArray["itemCount"] = $itemCount;
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        extract($row);
-        $resultData = array(
-            "clave" => $clave,
-            "descripcion" => $descripcion,
-            "tipo" => $tipo
-        );
-        $academiesArray["body"][] = $resultData;
-    }
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    $resultData = array(
+        "periodo" => $periodo,
+        "materia" => $materia,
+        "grupo" => $grupo,
+        "capacidad" => $capacidad,
+        "alumnos_inscritos" => $alumnos_inscritos,
+        "rfc_docente" => $rfc_docente
+    );
     http_response_code(200);
-    echo json_encode($academiesArray);
+    echo json_encode($resultData);
 } else {
     http_response_code(404);
     echo json_encode(

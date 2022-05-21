@@ -19,7 +19,7 @@ $items = new Career($db);
 
 $stmt = $items->getCareer();
 
-$itemCount = $stmt -> rowCount();
+$itemCount = $stmt->rowCount();
 if($itemCount > 0) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     extract($row);

@@ -10,15 +10,15 @@ class Student {
     private $conn;
     private $apiData;
     public function __construct($db) {
-        $this -> conn = $db;
+        $this->conn = $db;
         $this->apiData = json_decode(file_get_contents("php://input"));
     }
 
     // queries
     // gets all records from certain table
     public function getAllStudents() {
-        $sqlQuery = "select * from " . $this -> db_table;
-        $stmt = $this -> conn -> prepare($sqlQuery);
+        $sqlQuery = "select * from " . $this->db_table;
+        $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
 
         return $stmt;
@@ -27,9 +27,11 @@ class Student {
     // get single record from certain table
     public function getStudent() {
         $sqlQuery = "select * from ".$this->db_table." where control = :control";
-        $stmt = $this -> conn -> prepare($sqlQuery);
-        $stmt -> bindParam(":control", $this->control);
-        $stmt -> execute();
+        $this->control = $this->apiData->control;
+
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->bindParam(":control", $this->control);
+        $stmt->execute();
 
         return $stmt;
     }

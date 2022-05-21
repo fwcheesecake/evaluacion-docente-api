@@ -16,8 +16,8 @@ class Academy {
     // queries
     // gets all records from certain table
     public function getAllAcademies() {
-        $sqlQuery = "select * from " . $this -> db_table;
-        $stmt = $this -> conn -> prepare($sqlQuery);
+        $sqlQuery = "select * from " . $this->db_table;
+        $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
 
         return $stmt;
@@ -28,9 +28,9 @@ class Academy {
         $sqlQuery = "select * from ".$this->db_table." where clave = :clave";
         $this->clave = $this->apiData->clave;
 
-        $stmt = $this -> conn -> prepare($sqlQuery);
-        $stmt -> bindParam(":clave", $this->clave);
-        $stmt -> execute();
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->bindParam(":clave", $this->clave);
+        $stmt->execute();
 
         return $stmt;
     }

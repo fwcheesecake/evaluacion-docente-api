@@ -10,29 +10,20 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../../config/config.php';
 
 // import class file
-include_once '../../class/academy.php';
+include_once '../../class/group.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$items = new Academy($db);
+$items = new Group($db);
 
-$stmt = $items->getAcademy();
+$stmt = $items->addGroup();
 
-$itemCount = $stmt->rowCount();
-if($itemCount > 0) {
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    extract($row);
-    $resultData = array(
-        "clave" => $clave,
-        "descripcion" => $descripcion,
-        "tipo" => $tipo
-    );
+if($stmt) {
     http_response_code(200);
-    echo json_encode($resultData);
+    echo json_encode(
+        array("message" => "Success.")
+    );
 } else {
     http_response_code(404);
-    echo json_encode(
-        array("message" => "No record found.")
-    );
 }

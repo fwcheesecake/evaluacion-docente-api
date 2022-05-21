@@ -13,19 +13,19 @@ include_once '../../config/config.php';
 include_once '../../class/career.php';
 
 $database = new Database();
-$db = $database -> getConnection();
+$db = $database->getConnection();
 
 $items = new Career($db);
 
-$stmt = $items -> getAllCareers();
+$stmt = $items->getAllCareers();
 
-$itemCount = $stmt -> rowCount();
+$itemCount = $stmt->rowCount();
 if($itemCount > 0) {
     $careersArray = array();
     $careersArray["body"] = array();
     $careersArray["itemCount"] = $itemCount;
 
-    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
         $resultData = array(
             "clave_carrera" => $clave_carrera,

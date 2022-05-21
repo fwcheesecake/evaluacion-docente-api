@@ -13,7 +13,7 @@ include_once '../../config/config.php';
 include_once '../../class/career.php';
 
 $database = new Database();
-$db = $database -> getConnection();
+$db = $database->getConnection();
 
 $items = new Career($db);
 
