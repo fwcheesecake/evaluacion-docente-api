@@ -7,44 +7,40 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // include configurations
-include_once '../config/config.php';
+include_once '../../config/config.php';
 
 // import class file
-include_once '../class/students.php';
+include_once '../../class/academy.php';
 
 $database = new Database();
 $db = $database -> getConnection();
 
-$items = new Students($db);
+$items = new Academy($db);
 
-$stmt = $items -> getAllStudents();
+$stmt = $items -> getAllAcademies();
 $itemCount = $stmt -> rowCount();
-
 
 echo json_encode($itemCount);
 
 if($itemCount > 0) {
+    $academiesArray = array();
+    $academiesArray["body"] = array();
+    $academiesArray["itemCount"] = $itemCount;
 
-    $studentsArr = array();
-    $studentsArr["body"] = array();
-    $studentsArr["itemCount"] = $itemCount;
-
-    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
+    while ($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
         extract($row);
         $resultData = array(
-            "id" => $id,
-            "name" => $name,
-            "email" => $email,
-            "age" => $age,
-            "birthday" => $birthday
+            "clave" => $clave,
+            "descripcion" => $descripcion,
+            "tipo" => $tipo
         );
-        array_push($studentsArr["body"], $resultData);
+        $academiesArray["body"][] = $resultData;
     }
-    echo json_encode($studentsArr);
+    http_response_code(200);
+    echo json_encode($academiesArray);
 } else {
     http_response_code(404);
     echo json_encode(
         array("message" => "No record found.")
     );
 }
-?>

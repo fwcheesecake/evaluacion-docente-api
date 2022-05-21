@@ -13,12 +13,12 @@ use Firebase\JWT\JWT;
 include_once '../config/config.php';
 
 // import class file
-include_once '../class/students.php';
+include_once '../class/student.php';
 
 $database = new Database();
 $db = $database -> getConnection();
 
-$items = new Users($db);
+$items = new Student($db);
 
 $stmt = $items -> logIn();
 
@@ -27,12 +27,10 @@ $numOfRows = $stmt->rowCount();
 if($numOfRows > 0) {
     $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $user = $dataRow['usuario'];
-    $pass = $dataRow['contrasena'];
+    $control = $dataRow['control'];
+    $nip = $dataRow['nip'];
 
-
-    if($items->contrasena == $pass) {
-        $secret_key = "23uidfjiq83fevaldocente2022ddafio38c";
+    if($items->nip == $nip) {
         $issuedat_claim = time(); // time issued
         $expire_claim = $issuedat_claim + (60*60*24);
 
@@ -41,16 +39,16 @@ if($numOfRows > 0) {
             "exp" => $expire_claim,
 
             "data" => array(
-                "usuario" => $user,
+                "control" => $control,
             ));
 
-        $jwtValue = JWT::encode($token, $secret_key, 'HS256');
+        $jwtValue = JWT::encode($token, $dataRow->secret_key, 'HS256');
 
         echo json_encode(
             array(
                 "message" => "success",
                 "token" => $jwtValue,
-                "usuario" => $user,
+                "usuario" => $control,
                 "expiry" => $expire_claim
             ));
     } else {
