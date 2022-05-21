@@ -1,5 +1,5 @@
 # Evaluacion Docente API
-Endpoint API for Interactive English Center
+Endpoint API for the Teacher Evaluation System of the ITSM.
 
 ## Requirements
 * php 7.1 installed and configured in your `path` variable
