@@ -67,4 +67,24 @@ class Subject {
         // run query
         return (bool) $stmt->execute();
     }
+
+    public function addSubjects(): bool
+    {
+        $dataArr = $this->apiData->subjectData;
+        $arr = array();
+        $sqlQuery = "";
+
+        if(is_array($dataArr)) {
+            foreach ($dataArr as $row)
+                $arr[] = "('$row->clave_materia', '$row->nivel_escolar', '$row->tipo', '$row->clave_area', '$row->nombre', '$row->nombre_abreviado')";
+
+            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery .= implode(',', $arr);
+
+            $stmt = $this->conn->prepare($sqlQuery);
+
+            return (bool) $stmt->execute();
+        }
+        return false;
+    }
 }

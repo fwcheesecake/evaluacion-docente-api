@@ -61,4 +61,24 @@ class Period {
         // run query
         return (bool) $stmt->execute();
     }
+
+    public function addPeriods(): bool
+    {
+        $dataArr = $this->apiData->periodData;
+        $arr = array();
+        $sqlQuery = "";
+
+        if(is_array($dataArr)) {
+            foreach ($dataArr as $row)
+                $arr[] = "('$row->periodo', '$row->id_larga', '$row->id_corta', '$row->estado')";
+
+            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery .= implode(',', $arr);
+
+            $stmt = $this->conn->prepare($sqlQuery);
+
+            return (bool) $stmt->execute();
+        }
+        return false;
+    }
 }

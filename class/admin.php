@@ -9,6 +9,7 @@ class Admin {
     // preparation of database connection
     private $conn;
     private $apiData;
+
     public function __construct($db) {
         $this->conn = $db;
         $this->apiData = json_decode(file_get_contents("php://input"));

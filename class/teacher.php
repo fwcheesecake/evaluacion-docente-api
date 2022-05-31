@@ -74,4 +74,24 @@ class Teacher {
         // run query
         return (bool) $stmt->execute();
     }
+
+    public function addTeachers(): bool
+    {
+        $dataArr = $this->apiData->teacherData;
+        $arr = array();
+        $sqlQuery = "";
+
+        if(is_array($dataArr)) {
+            foreach ($dataArr as $row)
+                $arr[] = "('$row->rfc', '$row->clave_area', '$row->curp', '$row->no_tarjeta', '$row->nombre_completo', '$row->nombramiento', '$row->tipo', '$row->estado')";
+
+            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery .= implode(',', $arr);
+
+            $stmt = $this->conn->prepare($sqlQuery);
+
+            return (bool) $stmt->execute();
+        }
+        return false;
+    }
 }

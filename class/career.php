@@ -77,4 +77,24 @@ class Career {
         // run query
         return (bool) $stmt->execute();
     }
+
+    public function addCareers(): bool
+    {
+        $dataArr = $this->apiData->careerData;
+        $arr = array();
+        $sqlQuery = "";
+
+        if(is_array($dataArr)) {
+            foreach ($dataArr as $row)
+                $arr[] = "('$row->clave_carrera', '$row->reticula', '$row->nivel_escolar', '$row->clave_oficial', '$row->nombre', '$row->nombre_abreviado', '$row->siglas', '$row->modalidad', '$row->fecha_termino')";
+
+            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery .= implode(',', $arr);
+
+            $stmt = $this->conn->prepare($sqlQuery);
+
+            return (bool) $stmt->execute();
+        }
+        return false;
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 // get request parameters
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Methods: POST, PUT, DELETE, UPDATE");
-header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -33,7 +33,7 @@ if($numOfRows > 0) {
 
     if($items->contrasena == $contrasena) {
         $issuedat_claim = time(); // time issued
-        $expire_claim = $issuedat_claim + (60*60*24);
+        $expire_claim = $issuedat_claim + (60 * 60 * 24);
 
         $token = array(
             "iat" => $issuedat_claim,
@@ -49,9 +49,9 @@ if($numOfRows > 0) {
         echo json_encode(
             array(
                 "message" => "success",
-                "token" => $jwtValue,
+                "idToken" => $jwtValue,
                 "usuario" => $usuario,
-                "expiry" => $expire_claim
+                "expiresIn" => $expire_claim
             ));
     } else {
         http_response_code(404);

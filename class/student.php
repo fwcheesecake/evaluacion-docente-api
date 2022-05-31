@@ -78,16 +78,37 @@ class Student {
 
     // Login function
     public function login() {
-        $this->control = $this->apiData->usuario;
-        $this->nip = $this->apiData->contrasena;
+        $this->control = htmlspecialchars(strip_tags($this->apiData->control));
+        $this->nip = htmlspecialchars(strip_tags($this->apiData->nip));
 
-        // TODO JAYSON AYUDAME
-        $sqlQuery = sprintf("select * from %s where control = %s", $this->db_table, $this->control);
+        $sqlQuery = "select * from ".$this->db_table." where control = :control";
 
         $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->bindParam(":control", $this->control);
+
         $stmt->execute();
 
         return $stmt;
+    }
+
+    public function addStudents(): bool
+    {
+        $dataArr = $this->apiData->studentData;
+        $arr = array();
+        $sqlQuery = "";
+
+        if(is_array($dataArr)) {
+            foreach ($dataArr as $row)
+                $arr[] = "('$row->control', '$row->clave_carrera', '$row->reticula', '$row->semestre', '$row->estado', '$row->plan_estudios', '$row->nombre_completo', '$row->nip')";
+
+            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery .= implode(',', $arr);
+
+            $stmt = $this->conn->prepare($sqlQuery);
+
+            return (bool) $stmt->execute();
+        }
+        return false;
     }
 }
 

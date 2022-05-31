@@ -47,7 +47,7 @@ class Academy {
         $stmt = $this->conn->prepare($sqlQuery);
 
         // sanitize and validate
-        $this->descripcion= htmlspecialchars(strip_tags($this->apiData->descripcion));
+        $this->descripcion = htmlspecialchars(strip_tags($this->apiData->descripcion));
         $this->clave = htmlspecialchars(strip_tags($this->apiData->clave));
         $this->tipo = htmlspecialchars(strip_tags($this->apiData->tipo));
 
@@ -58,5 +58,34 @@ class Academy {
 
         // run query
         return (bool) $stmt->execute();
+    }
+
+    public function addAcademies(): bool
+    {
+        $dataArr = $this->apiData;
+        $arr = array();
+        $sqlQuery = "";
+
+        if(is_array($this->apiData)) {
+            foreach ($this->apiData as $row)
+                $arr[] = "('$row->descripcion', '$row->clave', '$row->tipo')";
+
+            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery .= implode(',', $arr);
+
+            $stmt = $this->conn->prepare($sqlQuery);
+
+            return (bool) $stmt->execute();
+        }
+
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApiData(): mixed
+    {
+        return $this->apiData;
     }
 }
