@@ -70,7 +70,7 @@ class Academy {
             foreach ($this->apiData as $row)
                 $arr[] = "('$row->descripcion', '$row->clave', '$row->tipo')";
 
-            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
             $sqlQuery .= implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);

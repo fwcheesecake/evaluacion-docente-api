@@ -1,11 +1,15 @@
 <?php
 // get request parameters
 header("Access-Control-Allow-Origin: *");
-
-header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Origin, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+$method = $_SERVER['REQUEST_METHOD'];
+if($method == "OPTIONS") {
+    die();
+}
 
 // include configurations
 include_once '../../config/config.php';

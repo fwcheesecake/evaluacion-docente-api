@@ -6,6 +6,11 @@ header("Access-Control-Allow-Methods: POST, PUT, DELETE, UPDATE");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+$method = $_SERVER['REQUEST_METHOD'];
+if($method == "OPTIONS") {
+    die();
+}
+
 // import jwt
 use Firebase\JWT\JWT;
 include_once '../../vendor/autoload.php';

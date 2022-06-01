@@ -93,7 +93,7 @@ class Student {
 
     public function addStudents(): bool
     {
-        $dataArr = $this->apiData->studentData;
+        $dataArr = $this->apiData;
         $arr = array();
         $sqlQuery = "";
 
@@ -101,7 +101,7 @@ class Student {
             foreach ($dataArr as $row)
                 $arr[] = "('$row->control', '$row->clave_carrera', '$row->reticula', '$row->semestre', '$row->estado', '$row->plan_estudios', '$row->nombre_completo', '$row->nip')";
 
-            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
             $sqlQuery .= implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);

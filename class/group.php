@@ -70,15 +70,15 @@ class Group {
 
     public function addGroups(): bool
     {
-        $dataArr = $this->apiData->groupData;
+        $dataArr = $this->apiData;
         $arr = array();
         $sqlQuery = "";
 
         if(is_array($dataArr)) {
             foreach ($dataArr as $row)
-                $arr[] = ("'$row->periodo', '$row->materia', '$row->grupo', '$row->capacidad', '$row->alumnos_inscritos', '$row->rfc_docente'");
+                $arr[] = "('$row->periodo', '$row->materia', '$row->grupo', '$row->capacidad', '$row->alumnos_inscritos', '$row->rfc_docente')";
 
-            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery = "insert IGNORE into ".$this->db_table." (periodo, materia, grupo, capacidad, alumnos_inscritos, rfc_docente) values ";
             $sqlQuery .= implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);

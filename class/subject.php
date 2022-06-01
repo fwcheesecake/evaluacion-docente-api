@@ -70,7 +70,7 @@ class Subject {
 
     public function addSubjects(): bool
     {
-        $dataArr = $this->apiData->subjectData;
+        $dataArr = $this->apiData;
         $arr = array();
         $sqlQuery = "";
 
@@ -78,7 +78,7 @@ class Subject {
             foreach ($dataArr as $row)
                 $arr[] = "('$row->clave_materia', '$row->nivel_escolar', '$row->tipo', '$row->clave_area', '$row->nombre', '$row->nombre_abreviado')";
 
-            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
             $sqlQuery .= implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);

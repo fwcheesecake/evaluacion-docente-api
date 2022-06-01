@@ -64,7 +64,7 @@ class Period {
 
     public function addPeriods(): bool
     {
-        $dataArr = $this->apiData->periodData;
+        $dataArr = $this->apiData;
         $arr = array();
         $sqlQuery = "";
 
@@ -72,7 +72,7 @@ class Period {
             foreach ($dataArr as $row)
                 $arr[] = "('$row->periodo', '$row->id_larga', '$row->id_corta', '$row->estado')";
 
-            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
             $sqlQuery .= implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);

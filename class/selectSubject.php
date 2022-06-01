@@ -68,7 +68,7 @@ class SelectSubject {
 
     public function addSelectSubjects(): bool
     {
-        $dataArr = $this->apiData->selectSubjectData;
+        $dataArr = $this->apiData;
         $arr = array();
         $sqlQuery = "";
 
@@ -76,7 +76,7 @@ class SelectSubject {
             foreach ($dataArr as $row)
                 $arr[] = "('$row->periodo', '$row->no_control', '$row->materia', '$row->grupo', '$row->estado_seleccion')";
 
-            $sqlQuery = "insert into ".$this->db_table." values ";
+            $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
             $sqlQuery .= implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);
