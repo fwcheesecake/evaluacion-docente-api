@@ -36,8 +36,10 @@ if($numOfRows > 0) {
     $control = $dataRow['control'];
     $nip = $dataRow['nip'];
     $nombre_completo = $dataRow['nombre_completo'];
+    $answered = $dataRow['terminado'];
 
     if($items->nip == $nip) {
+        if($answered) {
         $issuedat_claim = time(); // time issued
         $expire_claim = $issuedat_claim + (60 * 60 * 24);
 
@@ -61,6 +63,10 @@ if($numOfRows > 0) {
                 "control" => $control,
                 "nombre_completo" => $nombre_completo
             ));
+        } else {
+            http_response_code(401);
+            echo json_encode(array("success" => "false"));
+        }
     } else {
         http_response_code(404);
         echo json_encode(array("success" => "false"));
