@@ -46,8 +46,6 @@ if($itemCount > 0) {
         $careersArray["body"][] = $resultData;
     }
     http_response_code(200);
-    echo json_encode($studentsArray["body"]);
-
     echo json_encode($careersArray["body"]);
 } else {
     http_response_code(404);
