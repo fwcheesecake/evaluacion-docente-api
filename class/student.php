@@ -99,7 +99,7 @@ class Student {
 
         if(is_array($dataArr)) {
             foreach ($dataArr as $row)
-                $arr[] = "('$row->control', '$row->clave_carrera', '$row->reticula', '$row->semestre', '$row->estado', '$row->plan_estudios', '$row->nombre_completo', '$row->nip')";
+                $arr[] = "('$row->control', '$row->clave_carrera', '$row->reticula', '$row->semestre', '$row->estado', '$row->plan_estudios', '$row->nombre_completo', '$row->nip', 0)";
 
             $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
             $sqlQuery .= implode(',', $arr);
