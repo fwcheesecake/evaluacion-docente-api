@@ -45,7 +45,7 @@ if($itemCount > 0) {
         $studentsArray["body"][] = $resultData;
     }
     http_response_code(200);
-    echo json_encode($studentsArray);
+    echo json_encode($studentsArray["body"]);
 } else {
     http_response_code(404);
     echo json_encode(
