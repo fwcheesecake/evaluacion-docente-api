@@ -24,6 +24,16 @@ class Student {
         return $stmt;
     }
 
+    // gets all remaining students
+    public function getRemainingStudents() {
+        $sqlQuery = "SELECT alumnos.control, alumnos.nombre_completo as nombre, carreras.nombre as carrera, alumnos.nip, alumnos.correo FROM alumnos INNER JOIN carreras ON alumnos.clave_carrera = carreras.clave_carrera WHERE alumnos.terminado = 0;"; 
+
+        $stmt = $this->conn->prepare($sqlQuery);
+        $stmt->execute();
+
+        return $stmt;
+    }
+
     // get single record from certain table
     public function getStudent() {
         $sqlQuery = "select * from ".$this->db_table." where control = :control";
@@ -99,10 +109,9 @@ class Student {
 
         if(is_array($dataArr)) {
             foreach ($dataArr as $row)
-                $arr[] = "('$row->control', '$row->clave_carrera', '$row->reticula', '$row->semestre', '$row->estado', '$row->plan_estudios', '$row->nombre_completo', '$row->nip', 0)";
+                $arr[] = "('$row->control', '$row->clave_carrera', '$row->reticula', '$row->semestre', '$row->estado', '$row->plan_estudios', '$row->nombre_completo', '$row->nip', 0, '$row->correo')";
 
-            $sqlQuery = "insert IGNORE into ".$this->db_table." values ";
-            $sqlQuery .= implode(',', $arr);
+            $sqlQuery = "insert IGNORE into ".$this->db_table." values ".implode(',', $arr);
 
             $stmt = $this->conn->prepare($sqlQuery);
 
